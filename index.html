@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GAAD Accessibility Interactive Workshop</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Inter, Arial, sans-serif;
+  background:#eef2ff;
+  color:#1e293b;
+}
+
+.wrapper{
+  display:flex;
+  min-height:100vh;
+}
+
+/* LEFT PANEL */
+
+.left-panel{
+  width:70%;
+  padding:24px;
+  overflow-y:auto;
+}
+
+/* RIGHT PANEL */
+
+.right-panel{
+  width:30%;
+  background:white;
+  border-left:1px solid #dbeafe;
+  position:sticky;
+  top:0;
+  height:100vh;
+  padding:16px;
+}
+
+/* TITLES */
+
+.title-container{
+  display: flex;
+  align-items: center;
+  gap: 200px; /* space between text and logo */
+}
+
+.app-title{
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 2px;
+  color: #0f172a;
+}
+
+.logo{
+  width: 200px;
+  height: auto;
+}
+
+.sub-text{
+  color:#64748b;
+  margin-bottom:28px;
+}
+
+.badge{
+  display:inline-block;
+  background:#2563eb;
+  color:white;
+  padding:6px 12px;
+  border-radius:50px;
+  margin-bottom:14px;
+  font-size:13px;
+}
+
+/* CARDS */
+
+.section{
+  background:white;
+  padding:22px;
+  border-radius:18px;
+  margin-bottom:22px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+}
+
+.section h2{
+  margin-bottom:18px;
+  font-size:22px;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+label{
+  font-size:14px;
+  font-weight:600;
+}
+
+input,
+select{
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #cbd5e1;
+  font-size:14px;
+}
+
+/* CHECKBOX */
+
+.checkbox-container{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.checkbox-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#f8fafc;
+  padding:12px;
+  border-radius:12px;
+}
+
+/* BUTTONS */
+
+.actions{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+  transition:0.3s;
+  font-weight:700;
+}
+
+.primary-btn{
+  background:#2563eb;
+  color:white;
+  padding:14px 24px;
+  border-radius:12px;
+}
+
+.secondary-btn{
+  background:#111827;
+  color:white;
+  padding:14px 24px;
+  border-radius:12px;
+}
+
+button:hover{
+  transform:translateY(-2px);
+}
+
+/* PREVIEW */
+
+.preview-card{
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  border:1px solid #e2e8f0;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.preview-header,
+.preview-footer{
+  padding:18px;
+  transition:0.3s;
+}
+
+.preview-header h2{
+  margin-bottom:6px;
+}
+
+.preview-main{
+  flex:1;
+  padding:16px;
+  transition:0.3s;
+  overflow:auto;
+}
+
+.preview-box{
+  background:#f8fafc;
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+
+.preview-box input{
+  width:100%;
+}
+
+.preview-btn{
+  margin-top:12px;
+  padding:10px 18px;
+  border-radius:10px;
+  transition:0.3s;
+}
+
+.marquee{
+  margin-top:16px;
+  overflow:hidden;
+  white-space:nowrap;
+  background:#dbeafe;
+  padding:10px;
+  border-radius:8px;
+}
+
+.marquee-text{
+  display:inline-block;
+  padding-left:100%;
+  animation:scroll 10s linear infinite;
+}
+
+@keyframes scroll{
+
+  0%{
+    transform:translateX(0);
+  }
+
+  100%{
+    transform:translateX(-100%);
+  }
+
+}
+
+.pause-btn{
+  margin-top:10px;
+  padding:10px 18px;
+  border-radius:10px;
+  font-weight:700;
+  background:#2563eb;
+  color:white;
+  transition:0.3s;
+}
+
+/* VALIDATION */
+
+.validation{
+  margin-top:20px;
+  padding:18px;
+  border-radius:12px;
+  display:none;
+}
+
+.success{
+  background:#dcfce7;
+  color:#166534;
+  border:1px solid #22c55e;
+}
+
+.error{
+  background:#fee2e2;
+  color:#991b1b;
+  border:1px solid #ef4444;
+}
+
+.portal-banner{
+  padding:18px;
+  border-radius:14px;
+  margin-bottom:20px;
+  background:inherit;
+  color:inherit;
+  transition:0.3s;
+}
+
+/* RESPONSIVE */
+
+
+@media (max-width: 1000px) {
+
+.grid {
+  grid-template-columns: 1fr !important;
+}
+
+.grid .field {
+  grid-column: 1 / -1 !important;
+}
+
+form .field {
+  width: 100%;
+}
+
+form .radio-group,
+form .field > div {
+  flex-direction: column !important;
+  align-items: flex-start;
+}
+
+  .field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<!-- LEFT -->
+
+<div class="left-panel">
+
+<div class="badge">
+GAAD 2026 Interactive Accessibility Workshop
+</div>
+
+<div class="title-container">
+    <div class="app-title">
+        Accessibility Experience Builder
+    </div>
+
+    <img src="CognizantLogo.png" alt="Company Logo" class="logo">
+</div>
+
+<br>
+<br>
+
+<div class="sub-text" style="color:#000;">
+Instructions: Create the webpage by selecting the color/font inputs and accessibility design attributes below. Use the live preview to compare accessible and inaccessible designs.
+</div>
+
+
+
+<!-- HEADER -->
+
+<div class="section">
+
+<h2>Header Style</h2>
+
+<div class="grid">
+
+<div class="field">
+<label>Background Color</label>
+<input type="color" id="headerBg" value="#1e293b">
+</div>
+
+<div class="field">
+<label>Font Color</label>
+<input type="color" id="headerColor" value="#ffffff">
+</div>
+
+<div class="field">
+<label>Font Size</label>
+<select id="headerSize">
+<option>20px</option>
+<option selected>28px</option>
+<option>34px</option>
+<option>40px</option>
+</select>
+</div>
+
+<div class="field">
+<label>Font Family</label>
+<select id="headerFont">
+<option>Arial</option>
+<option>Verdana</option>
+<option>Georgia</option>
+<option>Tahoma</option>
+</select>
+</div>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="section">
+
+<h2>Main Content Style</h2>
+
+<div class="grid">
+
+<div class="field">
+<label>Background Color</label>
+<input type="color" id="mainBg" value="#ffffff">
+</div>
+
+<div class="field">
+<label>Font Color</label>
+<input type="color" id="mainColor" value="#000000">
+</div>
+
+<div class="field">
+<label>Font Size</label>
+<select id="mainSize">
+<option>14px</option>
+<option selected>16px</option>
+<option>20px</option>
+<option>24px</option>
+</select>
+</div>
+
+<div class="field">
+<label>Font Family</label>
+<select id="mainFont">
+<option>Arial</option>
+<option>Verdana</option>
+<option>Georgia</option>
+<option>Tahoma</option>
+</select>
+</div>
+
+<div class="field">
+<label>Button Size</label>
+<select id="buttonSize">
+<option>12px</option>
+<option selected>16px</option>
+<option>20px</option>
+<option>24px</option>
+</select>
+</div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="section">
+
+<h2>Footer Style</h2>
+
+<div class="grid">
+
+<div class="field">
+<label>Background Color</label>
+<input type="color" id="footerBg" value="#0f172a">
+</div>
+
+<div class="field">
+<label>Font Color</label>
+<input type="color" id="footerColor" value="#ffffff">
+</div>
+
+<div class="field">
+<label>Font Size</label>
+<select id="footerSize">
+<option>14px</option>
+<option selected>16px</option>
+<option>20px</option>
+</select>
+</div>
+
+<div class="field">
+<label>Font Family</label>
+<select id="footerFont">
+<option>Arial</option>
+<option>Verdana</option>
+<option>Georgia</option>
+<option>Tahoma</option>
+</select>
+</div>
+
+</div>
+
+</div>
+
+<!-- ACCESSIBILITY -->
+
+<div class="section">
+
+<h2>AdditiAccessibility Design Attributes</h2>
+
+<div class="checkbox-container">
+
+<div class="checkbox-item">
+<input type="checkbox" id="headingMarkup">
+<label>Enable Heading and Markup</label>
+</div>
+
+<div class="checkbox-item">
+<input type="checkbox" id="keyboardNav">
+<label>Enable Keyboard Navigation</label>
+</div>
+
+<div class="checkbox-item">
+<input type="checkbox" id="keyboardTrap">
+<label>No Keyboard Trap</label>
+</div>
+
+<div class="checkbox-item">
+<input type="checkbox" id="focusOrder">
+<label>Enable Focus Order</label>
+</div>
+
+
+<div class="checkbox-item">
+<input type="checkbox" id="scrollPause">
+<label>Enable Scrolling Pause Button</label>
+</div>
+
+<div class="checkbox-item">
+<input type="checkbox" id="errorMessage">
+<label>Enable Error Message</label>
+</div>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="primary-btn" onclick="generatePage()">
+Generate Rewards Page
+</button>
+
+</div>
+
+<div class="validation" id="validationBox"></div>
+
+</div>
+
+<!-- RIGHT PREVIEW -->
+
+<div class="right-panel">
+
+<h3 style="
+margin-bottom:14px;
+font-size:18px;
+font-weight:700;
+text-align:center;
+color:#0f172a;
+">
+Preview Screen
+</h3>
+
+<div class="preview-card">
+
+<div class="preview-header" id="previewHeader">
+
+<h2 id="previewHeading">
+Rewards Registration
+</h2>
+
+<p>
+GAAD Accessibility Workshop Preview
+</p>
+
+</div>
+
+
+<div class="preview-main" id="previewMain">
+
+<div class="preview-box">
+
+<div class="portal-banner">
+
+<h2>Rewards Enrollment Portal</h2>
+
+<p>
+Experience accessibility improvements and failures dynamically.
+</p>
+
+</div>
+<form>
+
+<div class="field" style="margin-bottom:16px;">
+
+<label>Title</label>
+
+<div style="
+display:flex;
+gap:18px;
+margin-top:8px;
+">
+
+<label>
+<input type="radio" name="previewTitle">
+Mr
+</label>
+
+<label>
+<input type="radio" name="previewTitle">
+Ms
+</label>
+
+</div>
+
+</div>
+
+<div class="field" style="margin-bottom:16px;">
+
+<label>First Name</label>
+<input type="text">
+
+</div>
+
+<div class="field" style="margin-bottom:16px;">
+
+<label>Last Name</label>
+<input type="text">
+
+</div>
+
+<div class="field" style="margin-bottom:16px;">
+
+<label>Address</label>
+
+<textarea rows="4" style="
+padding:12px;
+border-radius:10px;
+border:1px solid #cbd5e1;
+width:100%;
+"></textarea>
+
+</div>
+
+<button
+type="button"
+class="preview-btn"
+id="previewBtn"
+>
+Submit
+</button>
+
+</form>
+
+<div class="marquee">
+
+<div class="marquee-text" id="marqueeText">
+
+Accessibility improves usability for everyone • Inclusive design matters • GAAD 2026
+
+</div>
+
+</div>
+
+<button
+class="pause-btn"
+id="pauseBtn"
+onclick="pauseScroll()"
+>
+Pause Scrolling
+</button>
+
+<br><br>
+
+
+</div>
+
+</div>
+
+
+<div class="preview-footer" id="previewFooter">
+
+<div>
+Accessibility Experience Platform
+</div>
+
+<div style="margin-top:6px;font-size:13px;">
+Powered by Inclusive Design
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================
+   LIVE PREVIEW UPDATE
+========================= */
+
+const controls = document.querySelectorAll("input, select");
+
+controls.forEach(control=>{
+
+  control.addEventListener("input", updatePreview);
+
+});
+
+function updatePreview(){
+
+  /* HEADER */
+
+  const header =
+    document.getElementById("previewHeader");
+
+  header.style.background =
+    document.getElementById("headerBg").value;
+
+  header.style.color =
+    document.getElementById("headerColor").value;
+
+  header.style.fontSize =
+    document.getElementById("headerSize").value;
+
+  header.style.fontFamily =
+    document.getElementById("headerFont").value;
+
+  /* MAIN */
+
+  const main =
+    document.getElementById("previewMain");
+
+  main.style.background =
+    document.getElementById("mainBg").value;
+
+  main.style.color =
+    document.getElementById("mainColor").value;
+
+  main.style.fontSize =
+    document.getElementById("mainSize").value;
+
+  main.style.fontFamily =
+    document.getElementById("mainFont").value;
+
+  /* FOOTER */
+
+  const footer =
+    document.getElementById("previewFooter");
+
+  footer.style.background =
+    document.getElementById("footerBg").value;
+
+  footer.style.color =
+    document.getElementById("footerColor").value;
+
+  footer.style.fontSize =
+    document.getElementById("footerSize").value;
+
+  footer.style.fontFamily =
+    document.getElementById("footerFont").value;
+
+  /* BUTTON */
+
+const previewBtn = document.getElementById("previewBtn");
+
+previewBtn.style.fontSize =
+  document.getElementById("buttonSize").value;
+
+previewBtn.style.background =
+  document.getElementById("headerBg").value;
+
+previewBtn.style.color =
+  document.getElementById("headerColor").value;
+
+  /* HEADING */
+
+  document.getElementById("previewHeading")
+  .style.display =
+
+    document.getElementById("headingMarkup").checked
+
+    ? "block"
+
+    : "none";
+
+  /* PAUSE BUTTON */
+
+  document.getElementById("pauseBtn")
+  .style.display =
+
+    document.getElementById("scrollPause").checked
+
+    ? "inline-block"
+
+    : "none";
+
+}
+
+updatePreview();
+
+/* =========================
+   PAUSE SCROLLING
+========================= */
+
+let paused=false;
+
+function pauseScroll(){
+
+  paused = !paused;
+
+  const marquee =
+    document.getElementById("marqueeText");
+
+  const button =
+    document.getElementById("pauseBtn");
+
+  marquee.style.animationPlayState =
+    paused
+    ? "paused"
+    : "running";
+
+  button.textContent =
+    paused
+    ? "Play Scrolling"
+    : "Pause Scrolling";
+
+}
+
+/* =========================
+   CONTRAST FUNCTIONS
+========================= */
+
+function luminance(r,g,b){
+
+  let a=[r,g,b].map(v=>{
+
+    v/=255;
+
+    return v<=0.03928
+
+      ? v/12.92
+
+      : Math.pow((v+0.055)/1.055,2.4);
+
+  });
+
+  return a[0]*0.2126+
+         a[1]*0.7152+
+         a[2]*0.0722;
+
+}
+
+function contrast(rgb1,rgb2){
+
+  const lum1=luminance(
+    rgb1[0],
+    rgb1[1],
+    rgb1[2]
+  );
+
+  const lum2=luminance(
+    rgb2[0],
+    rgb2[1],
+    rgb2[2]
+  );
+
+  const brightest=Math.max(lum1,lum2);
+  const darkest=Math.min(lum1,lum2);
+
+  return (brightest+0.05)/(darkest+0.05);
+
+}
+
+function hexToRgb(hex){
+
+  const bigint=parseInt(
+    hex.slice(1),
+    16
+  );
+
+  return[
+    (bigint>>16)&255,
+    (bigint>>8)&255,
+    bigint&255
+  ];
+
+}
+
+/* =========================
+   VALIDATION
+========================= */
+
+function validateAccessibility(){
+
+  const validation =
+    document.getElementById("validationBox");
+
+  validation.style.display = "block";
+
+  let errors = [];
+  let passed = [];
+
+  /* =========================
+     HEADER CONTRAST
+  ========================= */
+
+  const headerBg =
+    document.getElementById("headerBg").value;
+
+  const headerColor =
+    document.getElementById("headerColor").value;
+
+  const headerRatio = contrast(
+
+    hexToRgb(headerBg),
+    hexToRgb(headerColor)
+
+  );
+
+  if(headerRatio < 4.5){
+
+    errors.push(
+
+      "Header contrast ratio failed. Required minimum 4.5:1 but found "
+      + headerRatio.toFixed(2)
+      + ":1"
+
+    );
+
+  }else{
+
+    passed.push(
+
+      "Header contrast ratio passed ("
+      + headerRatio.toFixed(2)
+      + ":1)"
+
+    );
+
+  }
+
+  /* =========================
+     MAIN CONTRAST
+  ========================= */
+
+  const mainBg =
+    document.getElementById("mainBg").value;
+
+  const mainColor =
+    document.getElementById("mainColor").value;
+
+  const mainRatio = contrast(
+
+    hexToRgb(mainBg),
+    hexToRgb(mainColor)
+
+  );
+
+  if(mainRatio < 4.5){
+
+    errors.push(
+
+      "Main content contrast ratio failed. Required minimum 4.5:1 but found "
+      + mainRatio.toFixed(2)
+      + ":1"
+
+    );
+
+  }else{
+
+    passed.push(
+
+      "Main content contrast ratio passed ("
+      + mainRatio.toFixed(2)
+      + ":1)"
+
+    );
+
+  }
+
+  /* =========================
+     FOOTER CONTRAST
+  ========================= */
+
+  const footerBg =
+    document.getElementById("footerBg").value;
+
+  const footerColor =
+    document.getElementById("footerColor").value;
+
+  const footerRatio = contrast(
+
+    hexToRgb(footerBg),
+    hexToRgb(footerColor)
+
+  );
+
+  if(footerRatio < 4.5){
+
+    errors.push(
+
+      "Footer contrast ratio failed. Required minimum 4.5:1 but found "
+      + footerRatio.toFixed(2)
+      + ":1"
+
+    );
+
+  }else{
+
+    passed.push(
+
+      "Footer contrast ratio passed ("
+      + footerRatio.toFixed(2)
+      + ":1)"
+
+    );
+
+  }
+
+  /* =========================
+     ACCESSIBILITY OPTIONS
+  ========================= */
+
+  const validations = [
+
+    {
+      id:"headingMarkup",
+      pass:"Heading and semantic markup enabled",
+      fail:"Heading and semantic markup missing"
+    },
+
+    {
+      id:"keyboardNav",
+      pass:"Keyboard navigation enabled",
+      fail:"Keyboard navigation disabled"
+    },
+
+    {
+      id:"keyboardTrap",
+      pass:"No keyboard trap detected",
+      fail:"Keyboard trap detected"
+    },
+
+    {
+      id:"focusOrder",
+      pass:"Proper focus order enabled",
+      fail:"Improper focus order detected"
+    },
+
+{
+  id:"scrollPause",
+  pass:"Pause button available for scrolling content",
+  fail:"Pause button missing for scrolling content"
+},
+
+{
+  id:"errorMessage",
+  pass:"Proper inline error messages enabled",
+  fail:"Generic or missing inline form error messages detected"
+}
+
+  ];
+
+  validations.forEach(v=>{
+
+    if(document.getElementById(v.id).checked){
+
+      passed.push(v.pass);
+
+    }else{
+
+      errors.push(v.fail);
+
+    }
+
+  });
+
+  /* =========================
+     FINAL RESULT
+  ========================= */
+
+  if(errors.length > 0){
+
+    validation.className = "validation error";
+
+validation.innerHTML =
+
+  "<h3>Sorry, your webpage is not accessible... please try again. <br>❌ Accessibility Validation Failed</h3><br>"
+
+  + errors.map(
+    e => "• " + e
+  ).join("<br>")
+
+  + "<br><br><h3>Passed Checks</h3><br>"
+
+  + passed.map(
+    p => "• " + p
+  ).join("<br>");
+
+  }else{
+
+    validation.className = "validation success";
+
+validation.innerHTML =
+
+  "<p style='margin-bottom:14px;font-weight:700;'>"
+  + "🎉 Congratulations, you have created the accessible webpage."
+  + "</p>"
+
+  + "<h3>✅ Accessibility Validation Passed</h3><br>"
+
+  + passed.map(
+    p => "• " + p
+  ).join("<br>");
+  }
+
+}
+
+
+/* =========================
+   GENERATE PAGE
+========================= */
+
+function generatePage(){
+
+const settings = {
+
+headerBg:
+document.getElementById("headerBg").value,
+
+headerColor:
+document.getElementById("headerColor").value,
+
+headerSize:
+document.getElementById("headerSize").value,
+
+headerFont:
+document.getElementById("headerFont").value,
+
+mainBg:
+document.getElementById("mainBg").value,
+
+mainColor:
+document.getElementById("mainColor").value,
+
+mainSize:
+document.getElementById("mainSize").value,
+
+mainFont:
+document.getElementById("mainFont").value,
+
+footerBg:
+document.getElementById("footerBg").value,
+
+footerColor:
+document.getElementById("footerColor").value,
+
+footerSize:
+document.getElementById("footerSize").value,
+
+footerFont:
+document.getElementById("footerFont").value,
+
+buttonSize:
+document.getElementById("buttonSize").value,
+
+headingMarkup:
+document.getElementById("headingMarkup").checked,
+
+keyboardNav:
+document.getElementById("keyboardNav").checked,
+
+keyboardTrap:
+document.getElementById("keyboardTrap").checked,
+
+focusOrder:
+document.getElementById("focusOrder").checked,
+
+scrollPause:
+document.getElementById("scrollPause").checked,
+
+errorMessage:
+document.getElementById("errorMessage").checked,
+
+};
+
+const newPage = window.open("", "_blank");
+
+newPage.document.write(`
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Rewards Registration</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:${settings.mainFont};
+background:${settings.mainBg};
+color:${settings.mainColor};
+
+}
+
+header{
+
+background:${settings.headerBg};
+color:${settings.headerColor};
+
+padding:24px 40px;
+
+font-size:${settings.headerSize};
+font-family:${settings.headerFont};
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+}
+
+
+
+.container{
+
+max-width:1100px;
+margin:auto;
+padding:40px 24px;
+
+}
+
+.card{
+
+background:white;
+border-radius:20px;
+padding:32px;
+
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+
+}
+
+.hero{
+
+margin-bottom:30px;
+padding:24px;
+
+border-radius:16px;
+
+background:linear-gradient(
+135deg,
+${settings.headerBg},
+${settings.footerBg}
+);
+
+color:white;
+
+}
+
+.hero h2{
+margin-bottom:10px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:24px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.field{
+
+display:flex;
+flex-direction:column;
+gap:8px;
+
+}
+
+.full{
+grid-column:1/3;
+}
+
+label{
+font-weight:700;
+}
+
+input,
+textarea{
+
+padding:14px;
+border-radius:12px;
+border:1px solid #cbd5e1;
+
+}
+
+.radio-group{
+
+display:flex;
+gap:18px;
+
+}
+
+button{
+
+border:none;
+cursor:pointer;
+
+}
+
+.submit-btn{
+
+margin-top:30px;
+
+padding:16px 28px;
+
+background:${settings.headerBg};
+color:${settings.headerColor};
+
+font-size:${settings.buttonSize};
+
+border-radius:12px;
+font-weight:700;
+
+}
+
+.marquee{
+
+margin-top:28px;
+
+overflow:hidden;
+white-space:nowrap;
+
+background:#e0f2fe;
+padding:14px;
+
+border-radius:12px;
+
+}
+
+.marquee-text{
+
+display:inline-block;
+padding-left:100%;
+
+animation:scroll 12s linear infinite;
+
+}
+
+@keyframes scroll{
+
+0%{
+transform:translateX(0);
+}
+
+100%{
+transform:translateX(-100%);
+}
+
+}
+
+.pause-btn{
+  margin-top:14px;
+  padding:12px 18px;
+  border-radius:10px;
+  font-weight:700;
+  background:${settings.headerBg};
+  color:${settings.headerColor};
+}
+
+.validation-btn{
+
+margin-top:18px;
+
+background:#111827;
+color:white;
+
+padding:14px 20px;
+
+border-radius:10px;
+
+}
+
+.validation-box{
+
+margin-top:22px;
+
+padding:18px;
+
+border-radius:12px;
+display:none;
+
+font-weight:600;
+
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:24px;
+}
+
+.success{
+
+background:#dcfce7;
+color:#166534;
+border:1px solid #22c55e;
+
+}
+
+.error{
+
+background:#fee2e2;
+color:#991b1b;
+border:1px solid #ef4444;
+
+}
+
+footer{
+
+margin-top:40px;
+
+background:${settings.footerBg};
+color:${settings.footerColor};
+
+padding:28px 40px;
+
+font-size:${settings.footerSize};
+font-family:${settings.footerFont};
+
+}
+
+@media (max-width: 768px) {
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 20px 14px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .submit-btn {
+    width: 100%;
+  }
+
+  .hero {
+    padding: 16px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div>
+
+${
+settings.headingMarkup
+
+? `<h1>Rewards Registration</h1>`
+
+: `<div>Rewards Registration</div>`
+}
+
+<div style="margin-top:6px;font-size:14px;">
+Global Accessibility Awareness Day
+</div>
+
+</div>
+
+<div class="logo">
+GAAD 2026
+</div>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<div class="hero">
+
+<h2>Rewards Enrollment Portal</h2>
+
+<p>
+Experience accessibility improvements and failures dynamically.
+</p>
+
+</div>
+
+<form>
+
+<div class="form-grid">
+
+<div class="field full">
+
+<label>Title</label>
+
+<div class="radio-group">
+
+<div
+id="titleError"
+class="field-error"
+></div>
+
+<label>
+<input type="radio" name="title">
+Mr
+</label>
+
+<label>
+<input type="radio" id="femaleRadio" name="title">
+Ms
+</label>
+
+</div>
+
+</div>
+
+<div class="field">
+
+<label>First Name</label>
+
+<input
+type="text"
+id="firstName"
+>
+
+<div
+id="firstNameError"
+class="field-error"
+></div>
+
+</div>
+
+<div class="field">
+
+<label>Last Name</label>
+
+<input
+type="text"
+id="lastName"
+>
+
+<div
+id="lastNameError"
+class="field-error"
+></div>
+
+</div>
+
+<div class="field full">
+
+<label>Address</label>
+
+<textarea
+rows="5"
+id="address"
+></textarea>
+
+<div
+id="addressError"
+class="field-error"
+></div>
+
+<style>
+.field-error{
+  color:#b91c1c;
+  font-size:14px;
+  font-weight:600;
+  margin-top:8px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  line-height:1.4;
+}
+
+.error-icon{
+  width:22px;
+  height:22px;
+  min-width:22px;
+  border-radius:50%;
+  background:#fee2e2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:1px;
+}
+</style>
+
+</div>
+
+</div>
+
+<button
+type="button"
+class="submit-btn"
+onclick="validateForm()"
+>
+Submit
+</button>
+
+</form>
+
+<div class="marquee">
+
+<div class="marquee-text" id="marqueeText">
+
+Accessibility improves usability for everyone • Inclusive design matters • GAAD 2026
+
+</div>
+
+</div>
+
+${
+settings.scrollPause
+
+? `
+<button
+class="pause-btn"
+onclick="pauseScrolling()"
+>
+Pause Scrolling
+</button>
+`
+
+: ""
+}
+
+<br>
+
+<button
+class="validation-btn"
+onclick="runAccessibilityCheck()"
+>
+Run Accessibility Check
+</button>
+
+<div
+class="validation-box"
+id="validationBox"
+></div>
+
+</div>
+
+</div>
+
+<footer>
+
+<div>
+Accessibility Experience Platform
+</div>
+
+<div style="margin-top:8px;">
+Powered by Inclusive Design Principles
+</div>
+
+</footer>
+
+<script>
+
+let paused=false;
+
+function pauseScrolling(){
+
+paused = !paused;
+
+const marquee =
+document.getElementById("marqueeText");
+
+const button =
+document.querySelector(".pause-btn");
+
+marquee.style.animationPlayState =
+
+paused
+? "paused"
+: "running";
+
+button.textContent =
+
+paused
+? "Play Scrolling"
+: "Pause Scrolling";
+
+}
+
+/* KEYBOARD NAVIGATION */
+
+${
+!settings.keyboardNav
+
+? `
+document.addEventListener(
+'keydown',
+function(e){
+
+if(e.key==='Tab'){
+
+e.preventDefault();
+
+}
+
+}
+);
+`
+
+: ""
+}
+
+/* KEYBOARD TRAP */
+
+/* KEYBOARD TRAP (fixed for radio group) */
+
+/* KEYBOARD TRAP */
+
+${
+!settings.keyboardTrap
+
+? `
+const radios = document.querySelectorAll('input[name="title"]');
+
+let trapActive = false;
+
+radios.forEach(radio => {
+
+  radio.addEventListener('focus', function () {
+    trapActive = true;
+  });
+
+  radio.addEventListener('keydown', function (e) {
+
+    if (!trapActive) return;
+
+    if (e.key === 'Tab') {
+
+      e.preventDefault();
+
+      const currentIndex =
+        Array.from(radios).indexOf(document.activeElement);
+
+      let nextIndex;
+
+      if (e.shiftKey) {
+
+        nextIndex =
+          currentIndex === 0
+          ? radios.length - 1
+          : currentIndex - 1;
+
+      } else {
+
+        nextIndex =
+          currentIndex === radios.length - 1
+          ? 0
+          : currentIndex + 1;
+
+      }
+
+      radios[nextIndex].focus();
+    }
+
+  });
+
+});
+`
+
+: ""
+}
+
+
+/* FOCUS ORDER */
+
+${
+!settings.focusOrder
+
+? `
+document.querySelectorAll(
+'input, textarea, button'
+).forEach((el,index)=>{
+
+el.tabIndex=
+[5,2,9,1,8,4][index] || index;
+
+});
+`
+
+: ""
+}
+
+/* CONTRAST */
+
+function luminance(r,g,b){
+
+let a=[r,g,b].map(v=>{
+
+v/=255;
+
+return v<=0.03928
+
+? v/12.92
+
+: Math.pow((v+0.055)/1.055,2.4);
+
+});
+
+return a[0]*0.2126+
+a[1]*0.7152+
+a[2]*0.0722;
+
+}
+
+function contrast(rgb1,rgb2){
+
+const lum1=luminance(
+rgb1[0],
+rgb1[1],
+rgb1[2]
+);
+
+const lum2=luminance(
+rgb2[0],
+rgb2[1],
+rgb2[2]
+);
+
+const brightest=Math.max(lum1,lum2);
+const darkest=Math.min(lum1,lum2);
+
+return (brightest+0.05)/(darkest+0.05);
+
+}
+
+function hexToRgb(hex){
+
+const bigint=parseInt(
+hex.slice(1),
+16
+);
+
+return [
+
+(bigint>>16)&255,
+(bigint>>8)&255,
+bigint&255
+
+];
+
+}
+
+/* FORM VALIDATION CHECK */
+
+function validateForm(){
+
+const firstName =
+document.getElementById('firstName');
+
+const lastName =
+document.getElementById('lastName');
+
+const address =
+document.getElementById('address');
+
+const titleSelected =
+document.querySelector(
+'input[name="title"]:checked'
+);
+
+document.getElementById(
+'firstNameError'
+).innerHTML='';
+
+document.getElementById(
+'lastNameError'
+).innerHTML='';
+
+document.getElementById(
+'addressError'
+).innerHTML='';
+
+document.getElementById(
+'titleError'
+).innerHTML='';
+
+const genericMessage =
+'Input is required';
+
+${
+settings.errorMessage
+
+? `
+const titleMessage =
+'⚠️ Title selection is required';
+
+const firstNameMessage =
+'⚠️ First Name input is required';
+
+const lastNameMessage =
+'⚠️ Last Name input is required';
+
+const addressMessage =
+'⚠️ Address input is required';
+`
+
+: `
+const titleMessage =
+genericMessage;
+
+const firstNameMessage =
+genericMessage;
+
+const lastNameMessage =
+genericMessage;
+
+const addressMessage =
+genericMessage;
+`
+}
+
+if(!titleSelected){
+
+document.getElementById(
+'titleError'
+).innerHTML = titleMessage;
+
+}
+
+if(firstName.value.trim()===''){
+
+document.getElementById(
+'firstNameError'
+).innerHTML = firstNameMessage;
+
+}
+
+if(lastName.value.trim()===''){
+
+document.getElementById(
+'lastNameError'
+).innerHTML = lastNameMessage;
+
+}
+
+if(address.value.trim()===''){
+
+document.getElementById(
+'addressError'
+).innerHTML = addressMessage;
+
+}
+
+}
+
+/* ACCESSIBILITY CHECK */
+
+function runAccessibilityCheck(){
+
+const validationBox =
+document.getElementById(
+'validationBox'
+);
+
+validationBox.style.display = 'block';
+
+let errors = [];
+let passed = [];
+
+/* =========================
+   HEADER CONTRAST
+========================= */
+
+const headerRatio = contrast(
+
+hexToRgb('${settings.headerBg}'),
+hexToRgb('${settings.headerColor}')
+
+);
+
+if(headerRatio < 4.5){
+
+errors.push(
+
+'Header contrast ratio failed. Required minimum 4.5:1 but found '
+
++ headerRatio.toFixed(2)
+
++ ':1'
+
+);
+
+}else{
+
+passed.push(
+
+'Header contrast ratio passed ('
+
++ headerRatio.toFixed(2)
+
++ ':1)'
+
+);
+
+}
+
+/* =========================
+   MAIN CONTRAST
+========================= */
+
+const mainRatio = contrast(
+
+hexToRgb('${settings.mainBg}'),
+hexToRgb('${settings.mainColor}')
+
+);
+
+if(mainRatio < 4.5){
+
+errors.push(
+
+'Main content contrast ratio failed. Required minimum 4.5:1 but found '
+
++ mainRatio.toFixed(2)
+
++ ':1'
+
+);
+
+}else{
+
+passed.push(
+
+'Main content contrast ratio passed ('
+
++ mainRatio.toFixed(2)
+
++ ':1)'
+
+);
+
+}
+
+/* =========================
+   FOOTER CONTRAST
+========================= */
+
+const footerRatio = contrast(
+
+hexToRgb('${settings.footerBg}'),
+hexToRgb('${settings.footerColor}')
+
+);
+
+if(footerRatio < 4.5){
+
+errors.push(
+
+'Footer contrast ratio failed. Required minimum 4.5:1 but found '
+
++ footerRatio.toFixed(2)
+
++ ':1'
+
+);
+
+}else{
+
+passed.push(
+
+'Footer contrast ratio passed ('
+
++ footerRatio.toFixed(2)
+
++ ':1)'
+
+);
+
+}
+
+/* =========================
+   ACCESSIBILITY OPTIONS
+========================= */
+
+${
+settings.headingMarkup
+? `passed.push('Heading and semantic markup enabled');`
+: `errors.push('Heading and semantic markup missing');`
+}
+
+${
+settings.keyboardNav
+? `passed.push('Keyboard navigation enabled');`
+: `errors.push('Keyboard navigation disabled');`
+}
+
+${
+settings.keyboardTrap
+? `passed.push('No keyboard trap detected');`
+: `errors.push('Keyboard trap detected at radio button');`
+}
+
+${
+settings.focusOrder
+? `passed.push('Proper focus order enabled');`
+: `errors.push('Improper focus order detected');`
+}
+
+${
+settings.scrollPause
+? `passed.push('Pause button available for scrolling content');`
+: `errors.push('Pause button missing for scrolling content');`
+}
+
+${
+settings.errorMessage
+? `passed.push('Proper inline error messages enabled');`
+: `errors.push('Generic or missing inline form error messages detected');`
+}
+
+
+/* =========================
+   COMPLIANCE SCORE
+========================= */
+
+const totalChecks = passed.length + errors.length;
+
+let complianceScore = 0;
+
+if (totalChecks > 0) {
+  complianceScore = Math.round((passed.length / totalChecks) * 100);
+}
+
+let grade = "";
+
+if (complianceScore >= 90) grade = "Excellent";
+else if (complianceScore >= 70) grade = "Good";
+else if (complianceScore >= 40) grade = "Needs Improvement";
+else grade = "Critical";
+
+
+/* =========================
+   FINAL RESULT
+========================= */
+
+if(errors.length > 0){
+
+validationBox.className =
+'validation-box error';
+
+validationBox.innerHTML =
+
+'<h3>'
++ '<span style="font-weight:700; font-size:22px; color:#991b1b;">Sorry, your webpage is not accessible... please try again.</span>'
++ '</h3><br>'
+
++ '<div style="font-size:18px; font-weight:800; margin-bottom:10px;">'
++ 'Compliance Score: ' + complianceScore + '%'
++ '</div>'
+
++ '<div style="font-size:16px; font-weight:700; margin-bottom:10px;">'
++ 'Grade: ' + grade
++ '</div>'
+
++ '<span style="font-weight:600; font-size:16px; color:#0f172a;">❌ Accessibility Validation Failed</span>'
++ '<br><br>'
+
++ errors.map(
+e => '• ' + e
+).join('<br>')
+
++ '<br><br><h3 style="color:#166534;">Passed Checks</h3><br>'
+
++ passed.map(
+p => '<span style="color:#166534;">• ' + p + '</span>'
+).join('<br>');
+
+}else{
+
+validationBox.className =
+'validation-box success';
+
+validationBox.innerHTML =
+
+'<h3>'
++ '<span style="font-weight:700; font-size:22px; color:#166534;">🎉 Congratulations, you have created the accessible webpage.</span>'
++ '</h3><br>'
+
++ '<div style="font-size:18px; font-weight:800; margin-bottom:10px;">'
++ 'Compliance Score: ' + complianceScore + '%'
++ '</div>'
+
++ '<div style="font-size:16px; font-weight:700; margin-bottom:10px;">'
++ 'Grade: ' + grade
++ '</div>'
+
++ '<span style="font-weight:600; font-size:16px; color:#0f172a;">✅ Accessibility Validation Passed</span>'
++ '<br><br>'
+
++ passed.map(
+  p => '• ' + p
+).join('<br>');
+
+}
+
+}
+
+
+<\/script>
+
+</body>
+
+</html>
+
+`);
+
+newPage.document.close();
+
+}
+
+</script>
+
+</body>
+</html>
